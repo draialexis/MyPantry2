@@ -2,20 +2,13 @@ package utils;
 
 import java.io.Serializable;
 
-public class DoughColor implements Serializable {
-    private final double r;
-    private final double b;
-    private final double g;
-
+public record DoughColor(double r, double g, double b) implements Serializable {
     /**
      * @param r red 0-1
      * @param g green 0-1
      * @param b blue 0-1
      */
-    public DoughColor(double r, double g, double b) {
-        this.r = r;
-        this.b = b;
-        this.g = g;
+    public DoughColor {
     }
 
     public double getR() {
