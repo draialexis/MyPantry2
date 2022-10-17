@@ -18,15 +18,6 @@ public class DoughColor implements Serializable {
         this.g = g;
     }
 
-    /**
-     * @param rInt red 0-255
-     * @param gInt green 0-255
-     * @param bInt blue 0-255
-     */
-    public DoughColor(int rInt, int gInt, int bInt) {
-        this(rInt / 255.0, gInt / 255.0, bInt / 255.0);
-    }
-
     public double getR() {
         return r;
     }

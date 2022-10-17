@@ -78,10 +78,18 @@ public class PastaVM implements PropertyChangeListener {
         }
     }
 
+    public void updateDough(DoughVM before, DoughVM after) {
+        if(before != null && after != null) {
+            model.updateDough(before.getModel(), after.getModel());
+        }
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(Pasta.PROP_PASTA_COMPUTE_COLOR)){
-            setColor(ColorConverter.toVM(evt.getNewValue()));
+            if(!ColorConverter.areEqual(evt.getNewValue(), getColor())) {
+                setColor(ColorConverter.toVM(evt.getNewValue()));
+            }
         }
         if(evt.getPropertyName().equals(Pasta.PROP_PASTA_ADD_DOUGH)) {
             doughsObs.add(

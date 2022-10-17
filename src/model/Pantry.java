@@ -12,7 +12,7 @@ public class Pantry implements Serializable {
     public static final String PROP_PANTRY_ADD_PASTA = "model.pantry.addPasta";
     public static final String PROP_PANTRY_RMV_PASTA = "model.pantry.removePasta";
 
-    private PropertyChangeSupport support;
+    private transient PropertyChangeSupport support;
 
     private final List<Pasta> pasta = new ArrayList<>();
 

@@ -16,7 +16,7 @@ public class Pasta implements Serializable {
 
     private static final DoughColor DEFAULT_DOUGH_COLOR = new DoughColor(0.0, 0.0, 0.0);
 
-    private PropertyChangeSupport support = null;
+    private transient PropertyChangeSupport support = null;
 
     private final List<Dough> doughs = new ArrayList<>();
 
@@ -35,8 +35,12 @@ public class Pasta implements Serializable {
      */
     public void addDough(Dough toAdd) {
         if (toAdd != null) {
-            doughs.add(toAdd);
-            // TODO fire add dough
+            int i = 0;
+            doughs.add(i, toAdd);
+            getSupport().fireIndexedPropertyChange(PROP_PASTA_ADD_DOUGH,
+                                                   i,
+                                                   getDoughs().size() > i + 1 ? getDoughs().get(i + 1) : null,
+                                                   toAdd);
             computeColor();
         }
     }
@@ -46,9 +50,20 @@ public class Pasta implements Serializable {
      */
     public void removeDough(Dough toRemove) {
         if (toRemove != null) {
+            int i = getDoughs().indexOf(toRemove);
             doughs.remove(toRemove);
-            // TODO fire remove dough
+            getSupport().fireIndexedPropertyChange(PROP_PASTA_RMV_DOUGH,
+                                                   i,
+                                                   toRemove,
+                                                   getDoughs().size() > i ? getDoughs().get(i) : null);
             computeColor();
+        }
+    }
+
+    public void updateDough(Dough before, Dough after) {
+        if (before != null && after != null) {
+            removeDough(before);
+            addDough(after);
         }
     }
 
@@ -77,7 +92,8 @@ public class Pasta implements Serializable {
             color = new DoughColor(Math.max(0.0, Math.min(r, 1.0)),
                                    Math.max(0.0, Math.min(g, 1.0)),
                                    Math.max(0.0, Math.min(b, 1.0)));
-        } getSupport().firePropertyChange(PROP_PASTA_COMPUTE_COLOR, oldV, color);
+        }
+        getSupport().firePropertyChange(PROP_PASTA_COMPUTE_COLOR, oldV, color);
     }
 
     public PropertyChangeSupport getSupport() {

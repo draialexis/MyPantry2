@@ -31,4 +31,16 @@ public class ColorConverter {
         }
         else {return null;}
     }
+
+    public static boolean areEqual(DoughColor doughColor, Color JFXColor) {
+        return JFXColor.getRed() == doughColor.getR()
+               && JFXColor.getBlue() == doughColor.getB()
+               && JFXColor.getGreen() == doughColor.getG();
+    }
+
+    public static boolean areEqual(Object o, Color JFXColor) {
+        if(o instanceof DoughColor){
+            return areEqual((DoughColor) o, JFXColor);
+        } else throw new IllegalArgumentException("only doughcolors please");
+    }
 }

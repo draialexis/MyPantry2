@@ -6,7 +6,10 @@ import javafx.scene.paint.Color;
 import model.Dough;
 import utils.ColorConverter;
 
-public class DoughVM {
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class DoughVM implements PropertyChangeListener {
     private final Dough model;
 
     private final ObjectProperty<Color> color = new SimpleObjectProperty<>();
@@ -20,15 +23,27 @@ public class DoughVM {
 
     /**
      * constructs a DoughVM from a Dough
+     *
      * @param o needs to be an instance of Dough
      */
     public DoughVM(Object o) {
         if (o instanceof Dough) {
             this.model = (Dough) o;
 
-            // TODO subscribe to dough and update it at need?
+            // load into self
+            setColor(ColorConverter.toVM(model.getColor()));
 
-        } else {
+            // subscribe
+            model.addListener(this);
+
+            // update ("set")
+            colorProperty().addListener(__ -> {
+                if (!ColorConverter.areEqual(model.getColor(), this.getColor())) {
+                    model.setColor(ColorConverter.toModel(this.getColor()));
+                }
+            });
+        }
+        else {
             throw new IllegalArgumentException("only dough please");
         }
     }
@@ -39,5 +54,12 @@ public class DoughVM {
 
     public Dough getModel() {
         return model;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(Dough.PROP_DOUGH_COLOR)) {
+            setColor(ColorConverter.toVM(evt.getNewValue()));
+        }
     }
 }

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Rectangle?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml">
@@ -12,18 +10,35 @@
         <ListView fx:id="pastaLV"/>
     </center>
     <right>
-        <VBox minWidth="150.0">
-            <HBox>
-                <Label text="type: "/>
-                <Label fx:id="pastaTypeLbl"/>
-            </HBox>
-            <Rectangle fx:id="pastaClrRect" width="30.0" height="10.0"/>
-        </VBox>
+        <BorderPane>
+            <top>
+                <VBox minWidth="150.0">
+                    <HBox>
+                        <Label text="type: "/>
+                        <Label fx:id="pastaTypeLbl"/>
+                    </HBox>
+                    <Rectangle fx:id="pastaClrRect" width="30.0" height="10.0"/>
+                </VBox>
+            </top>
+            <center>
+                <ListView fx:id="doughsLV"/>
+            </center>
+            <right>
+                <ColorPicker fx:id="doughClrPicker"/>
+            </right>
+            <bottom>
+                <HBox>
+                    <Button text="add dough" onAction="#clickAddDough"/>
+                    <Button text="remove dough" onAction="#clickRemoveDough"/>
+                    <Button text="update dough and send back to top" onAction="#clickUpdateDough"/>
+                </HBox>
+            </bottom>
+        </BorderPane>
     </right>
     <bottom>
         <HBox>
-            <Button text="add" onAction="#clickAddPasta"/>
-            <Button text="remove" onAction="#clickRemovePasta"/>
+            <Button text="add pasta" onAction="#clickAddPasta"/>
+            <Button text="remove pasta" onAction="#clickRemovePasta"/>
             <Button text="QUIT" onAction="#clickQuit"/>
         </HBox>
     </bottom>
